@@ -73,4 +73,28 @@ router.delete('/:id', verifyToken, (req, res) => {
     );
 });
 
+router.get('/alerts/low-stock', verifyToken, (req, res) => {
+    db.query(
+        'SELECT * FROM medications WHERE stock <= 15 ORDER BY stock ASC',
+        (err, results) => {
+            if (err) {
+                return res.status(500).json({ error: 'Database error' });
+            }
+            res.json(results);
+        }
+    );
+});
+
+router.get('/alerts/expiring-soon', verifyToken, (req, res) => {
+    db.query(
+        'SELECT * FROM medications WHERE expiry <= DATE_ADD(NOW(), INTERVAL 90 DAY) AND expiry >= NOW() ORDER BY expiry ASC',
+        (err, results) => {
+            if (err) {
+                return res.status(500).json({ error: 'Database error' });
+            }
+            res.json(results);
+        }
+    );
+});
+
 module.exports = router;
