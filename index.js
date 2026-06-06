@@ -1,25 +1,15 @@
 const express = require('express');
-const mysql = require('mysql2');
+const db = require('./database');
+const authRoutes = require('./routes/auth');
+const verifyToken = require('./middleware/auth');
 
 const app = express();
 app.use(express.json());
 
-const db = mysql.createConnection({
-    host: 'localhost',
-    user: 'root',
-    password: '',
-    database: 'pharmacy'
-});
 
-db.connect((err) => {
-    if (err) {
-        console.log('Database connection failed:', err);
-        return;
-    }
-    console.log('Connected to the database');
-});
+app.use('/api/auth', authRoutes);
 
-app.get('/api/medications', (req, res) => {
+app.get('/api/medications', verifyToken,(req, res) => {
     db.query('SELECT * FROM medications', (err, results) => {
         if (err) {
             res.status(500).json({ error: 'Database error' });
@@ -29,7 +19,7 @@ app.get('/api/medications', (req, res) => {
     });
 });
   
-app.post('/api/medications', (req, res) => {
+app.post('/api/medications', verifyToken, (req, res) => {
     const { name, stock, expiry } = req.body;
 
     if (!name || !stock || !expiry) {
@@ -51,7 +41,7 @@ app.post('/api/medications', (req, res) => {
 });
 
 
-app.put('/api/medications/:id', (req, res) => {
+app.put('/api/medications/:id', verifyToken, (req, res) => {
     const { id } = req.params;
     const { name, stock, expiry } = req.body;
 
@@ -78,7 +68,7 @@ app.put('/api/medications/:id', (req, res) => {
 });
 
 
-app.delete('/api/medications/:id', (req, res) => {
+app.delete('/api/medications/:id', verifyToken, (req, res) => {
     const { id } = req.params;
 
     db.query(
