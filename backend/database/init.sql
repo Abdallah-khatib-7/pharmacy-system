@@ -1,12 +1,22 @@
 CREATE DATABASE IF NOT EXISTS pharmacy;
 USE pharmacy;
 
+CREATE TABLE IF NOT EXISTS active_ingredients (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(255) NOT NULL UNIQUE,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
 CREATE TABLE IF NOT EXISTS medications (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    name VARCHAR(255) NOT NULL,
-    stock INT NOT NULL,
+    ingredient_id INT NOT NULL,
+    brand_name VARCHAR(255) NOT NULL,
+    dosage VARCHAR(100) NOT NULL,
+    form VARCHAR(100) NOT NULL,
+    stock INT NOT NULL DEFAULT 0,
     expiry DATE NOT NULL,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (ingredient_id) REFERENCES active_ingredients(id)
 );
 
 CREATE TABLE IF NOT EXISTS users (
@@ -26,4 +36,24 @@ CREATE TABLE IF NOT EXISTS suppliers (
     email VARCHAR(255),
     address TEXT,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE IF NOT EXISTS prescriptions (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    patient_name VARCHAR(255) NOT NULL,
+    pharmacist_id INT NOT NULL,
+    status ENUM('pending', 'dispensed', 'cancelled') DEFAULT 'pending',
+    notes TEXT,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (pharmacist_id) REFERENCES users(id)
+);
+
+CREATE TABLE IF NOT EXISTS prescription_items (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    prescription_id INT NOT NULL,
+    medication_id INT NOT NULL,
+    quantity INT NOT NULL,
+    instructions TEXT,
+    FOREIGN KEY (prescription_id) REFERENCES prescriptions(id),
+    FOREIGN KEY (medication_id) REFERENCES medications(id)
 );
