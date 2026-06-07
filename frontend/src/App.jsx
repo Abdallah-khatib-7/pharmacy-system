@@ -5,6 +5,7 @@ import PharmacistDashboard from './pages/PharmacistDashboard'
 import Layout from './components/Layout'
 import ProtectedRoute from './components/ProtectedRoute'
 import useAuth from './context/useAuth'
+import Medications from './pages/Medications'
 
 const RoleRouter = () => {
     const { user } = useAuth()
@@ -18,6 +19,11 @@ function App() {
             <Routes>
                 <Route path="/login" element={<Login />} />
                 <Route path="/" element={<RoleRouter />} />
+                <Route path="/medications" element={
+    <ProtectedRoute>
+        <Layout><Medications /></Layout>
+    </ProtectedRoute>
+} />
 
                 {/* Admin Routes */}
                 <Route path="/admin" element={
@@ -31,6 +37,7 @@ function App() {
                     <ProtectedRoute>
                         <Layout><PharmacistDashboard /></Layout>
                     </ProtectedRoute>
+                    
                 } />
             </Routes>
         </BrowserRouter>

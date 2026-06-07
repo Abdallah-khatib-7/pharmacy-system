@@ -14,6 +14,8 @@ CREATE TABLE IF NOT EXISTS medications (
     dosage VARCHAR(100) NOT NULL,
     form VARCHAR(100) NOT NULL,
     stock INT NOT NULL DEFAULT 0,
+    purchase_price DECIMAL(10,2) NOT NULL,
+    selling_price DECIMAL(10,2) NOT NULL,
     expiry DATE NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (ingredient_id) REFERENCES active_ingredients(id)

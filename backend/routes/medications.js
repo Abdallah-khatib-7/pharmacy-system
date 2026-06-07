@@ -7,7 +7,8 @@ const router = express.Router();
 // Get all medications with ingredient name
 router.get('/', verifyToken, (req, res) => {
     db.query(
-        `SELECT m.id, m.brand_name, m.dosage, m.form, m.stock, m.expiry,
+        `SELECT m.id, m.ingredient_id, m.brand_name, m.dosage, m.form, m.stock, 
+        m.purchase_price, m.selling_price, m.expiry,
         ai.name as ingredient_name
         FROM medications m
         JOIN active_ingredients ai ON m.ingredient_id = ai.id
@@ -21,15 +22,15 @@ router.get('/', verifyToken, (req, res) => {
 
 // Add a medication
 router.post('/', verifyToken, (req, res) => {
-    const { ingredient_id, brand_name, dosage, form, stock, expiry } = req.body;
+    const { ingredient_id, brand_name, dosage, form, stock, purchase_price, selling_price, expiry } = req.body;
 
-    if (!ingredient_id || !brand_name || !dosage || !form || !stock || !expiry) {
+    if (!ingredient_id || !brand_name || !dosage || !form || !stock || !purchase_price || !selling_price || !expiry) {
         return res.status(400).json({ error: 'All fields are required' });
     }
 
     db.query(
-        'INSERT INTO medications (ingredient_id, brand_name, dosage, form, stock, expiry) VALUES (?, ?, ?, ?, ?, ?)',
-        [ingredient_id, brand_name, dosage, form, stock, expiry],
+        'INSERT INTO medications (ingredient_id, brand_name, dosage, form, stock, purchase_price, selling_price, expiry) VALUES (?, ?, ?, ?, ?, ?, ?, ?)',
+        [ingredient_id, brand_name, dosage, form, stock, purchase_price, selling_price, expiry],
         (err, result) => {
             if (err) return res.status(500).json({ error: 'Database error' });
             res.status(201).json({ message: 'Medication added', id: result.insertId });
@@ -40,15 +41,15 @@ router.post('/', verifyToken, (req, res) => {
 // Update a medication
 router.put('/:id', verifyToken, (req, res) => {
     const { id } = req.params;
-    const { ingredient_id, brand_name, dosage, form, stock, expiry } = req.body;
+    const { ingredient_id, brand_name, dosage, form, stock, purchase_price, selling_price, expiry } = req.body;
 
-    if (!ingredient_id || !brand_name || !dosage || !form || !stock || !expiry) {
+    if (!ingredient_id || !brand_name || !dosage || !form || !stock || !purchase_price || !selling_price || !expiry) {
         return res.status(400).json({ error: 'All fields are required' });
     }
 
     db.query(
-        'UPDATE medications SET ingredient_id=?, brand_name=?, dosage=?, form=?, stock=?, expiry=? WHERE id=?',
-        [ingredient_id, brand_name, dosage, form, stock, expiry, id],
+        'UPDATE medications SET ingredient_id=?, brand_name=?, dosage=?, form=?, stock=?, purchase_price=?, selling_price=?, expiry=? WHERE id=?',
+        [ingredient_id, brand_name, dosage, form, stock, purchase_price, selling_price, expiry, id],
         (err, result) => {
             if (err) return res.status(500).json({ error: 'Database error' });
             if (result.affectedRows === 0) return res.status(404).json({ error: 'Medication not found' });
