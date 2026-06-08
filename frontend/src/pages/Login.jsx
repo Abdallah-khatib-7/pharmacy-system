@@ -1,17 +1,21 @@
 import { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, Navigate } from 'react-router-dom'
 import api from '../api/axios'
 import useAuth from '../context/useAuth'
 
+
+
 const Login = () => {
-    const [email, setEmail] = useState('')
+     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
     const [error, setError] = useState('')
     const [loading, setLoading] = useState(false)
 
-    const { login } = useAuth()
+    const { login, token, user } = useAuth()
     const navigate = useNavigate()
-
+      if (token && user) {
+        return <Navigate to={user.role === 'admin' ? '/admin' : '/dashboard'} />
+    }
     const handleSubmit = async (e) => {
         e.preventDefault()
         setLoading(true)

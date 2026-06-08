@@ -39,11 +39,18 @@ const Layout = ({ children }) => {
     const links = user?.role === 'admin' ? adminLinks : pharmacistLinks
 
     return (
-        <div className="flex min-h-screen bg-slate-50">
+        <div style={{ display: 'flex', height: '100vh', overflow: 'hidden', backgroundColor: '#f8fafc' }}>
             {/* Sidebar */}
-            <aside
-                className={`${collapsed ? 'w-20' : 'w-64'} transition-all duration-300 bg-gradient-to-b from-slate-900 to-slate-800 flex flex-col shadow-2xl relative z-20`}
-            >
+            <aside style={{
+                width: collapsed ? 80 : 256,
+                transition: 'width 0.3s',
+                background: 'linear-gradient(to bottom, #0f172a, #1e293b)',
+                display: 'flex',
+                flexDirection: 'column',
+                flexShrink: 0,
+                height: '100vh',
+                overflowY: 'auto'
+            }}>
                 {/* Logo */}
                 <div className="flex items-center justify-between px-4 py-5 border-b border-slate-700">
                     {!collapsed && (
@@ -58,7 +65,7 @@ const Layout = ({ children }) => {
                         onClick={() => setCollapsed(!collapsed)}
                         className="text-slate-400 hover:text-white transition p-1 rounded-lg hover:bg-slate-700"
                     >
-                        {collapsed ? <Menu size={20} /> : <X size={20} />}
+                        {collapsed ? <Menu size={20} color="#94a3b8" /> : <X size={20} color="#94a3b8" />}
                     </button>
                 </div>
 
@@ -66,7 +73,7 @@ const Layout = ({ children }) => {
                 {!collapsed && (
                     <div className="px-4 py-4 border-b border-slate-700">
                         <div className="flex items-center gap-3">
-                            <div className="w-10 h-10 rounded-full bg-blue-600 flex items-center justify-center shadow-lg shadow-blue-900 flex-shrink-0">
+                            <div className="w-10 h-10 rounded-full bg-blue-600 flex items-center justify-center flex-shrink-0">
                                 <span className="text-white font-bold text-sm">
                                     {user?.name?.charAt(0)}
                                 </span>
@@ -82,45 +89,72 @@ const Layout = ({ children }) => {
                 )}
 
                 {/* Nav Links */}
-                <nav className="flex-1 px-3 py-4 space-y-1 overflow-y-auto">
-                    {links.map((link, i) => {
-                        const active = location.pathname === link.path
-                        return (
-                            <button
-                                key={i}
-                                onClick={() => navigate(link.path)}
-                                className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-xl transition-all duration-200 group
-                                    ${active
-                                        ? 'bg-blue-600 shadow-lg shadow-blue-900'
-                                        : 'hover:bg-slate-700'
-                                    }`}
-                            >
-                                <link.icon
-                                    size={20}
-                                    color={active ? 'white' : '#94a3b8'}
-                                />
-                                {!collapsed && (
-                                    <>
-                                        <span className={`text-sm font-medium flex-1 text-left ${active ? 'text-white' : 'text-slate-400 group-hover:text-white'}`}>
-                                            {link.label}
-                                        </span>
-                                        {active && <ChevronRight size={14} color="white" />}
-                                    </>
-                                )}
-                            </button>
-                        )
-                    })}
+                <nav style={{ flex: 1, padding: '16px 12px', overflowY: 'auto' }}>
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
+                        {links.map((link, i) => {
+                            const active = location.pathname === link.path
+                            return (
+                                <button
+                                    key={i}
+                                    onClick={() => navigate(link.path)}
+                                    style={{
+                                        width: '100%',
+                                        display: 'flex',
+                                        alignItems: 'center',
+                                        gap: 12,
+                                        padding: '10px 12px',
+                                        borderRadius: 12,
+                                        border: 'none',
+                                        cursor: 'pointer',
+                                        backgroundColor: active ? '#2563eb' : 'transparent',
+                                        transition: 'all 0.2s'
+                                    }}
+                                    onMouseEnter={e => { if (!active) e.currentTarget.style.backgroundColor = '#334155' }}
+                                    onMouseLeave={e => { if (!active) e.currentTarget.style.backgroundColor = 'transparent' }}
+                                >
+                                    <link.icon size={20} color={active ? 'white' : '#94a3b8'} />
+                                    {!collapsed && (
+                                        <>
+                                            <span style={{
+                                                fontSize: 14,
+                                                fontWeight: 500,
+                                                flex: 1,
+                                                textAlign: 'left',
+                                                color: active ? 'white' : '#94a3b8'
+                                            }}>
+                                                {link.label}
+                                            </span>
+                                            {active && <ChevronRight size={14} color="white" />}
+                                        </>
+                                    )}
+                                </button>
+                            )
+                        })}
+                    </div>
                 </nav>
 
                 {/* Logout */}
-                <div className="px-3 py-4 border-t border-slate-700">
+                <div style={{ padding: '16px 12px', borderTop: '1px solid #334155' }}>
                     <button
                         onClick={handleLogout}
-                        className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl hover:bg-red-500 hover:bg-opacity-20 transition group"
+                        style={{
+                            width: '100%',
+                            display: 'flex',
+                            alignItems: 'center',
+                            gap: 12,
+                            padding: '10px 12px',
+                            borderRadius: 12,
+                            border: 'none',
+                            cursor: 'pointer',
+                            backgroundColor: 'transparent',
+                            transition: 'all 0.2s'
+                        }}
+                        onMouseEnter={e => e.currentTarget.style.backgroundColor = 'rgba(239,68,68,0.1)'}
+                        onMouseLeave={e => e.currentTarget.style.backgroundColor = 'transparent'}
                     >
                         <LogOut size={20} color="#ef4444" />
                         {!collapsed && (
-                            <span className="text-sm font-medium text-slate-400 group-hover:text-red-400">
+                            <span style={{ fontSize: 14, fontWeight: 500, color: '#94a3b8' }}>
                                 Logout
                             </span>
                         )}
@@ -129,23 +163,34 @@ const Layout = ({ children }) => {
             </aside>
 
             {/* Main Content */}
-            <main className="flex-1 overflow-auto">
+            <main style={{ flex: 1, overflowY: 'auto', display: 'flex', flexDirection: 'column' }}>
                 {/* Top bar */}
-                <div className="bg-white border-b border-slate-100 px-8 py-4 flex items-center justify-between sticky top-0 z-10 shadow-sm">
+                <div style={{
+                    backgroundColor: 'white',
+                    borderBottom: '1px solid #f1f5f9',
+                    padding: '16px 32px',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'space-between',
+                    position: 'sticky',
+                    top: 0,
+                    zIndex: 10,
+                    boxShadow: '0 1px 3px rgba(0,0,0,0.05)'
+                }}>
                     <div>
-                        <h2 className="text-slate-800 font-semibold capitalize">
+                        <h2 style={{ fontSize: 15, fontWeight: 600, color: '#1e293b', textTransform: 'capitalize' }}>
                             {location.pathname.replace('/', '') || 'Dashboard'}
                         </h2>
-                        <p className="text-xs text-slate-400">PharmaCare Management System</p>
+                        <p style={{ fontSize: 12, color: '#94a3b8' }}>PharmaCare Management System</p>
                     </div>
-                    <div className="flex items-center gap-2">
-                        <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
-                        <span className="text-xs text-slate-400">System Online</span>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                        <div style={{ width: 8, height: 8, backgroundColor: '#4ade80', borderRadius: '50%' }} className="animate-pulse"></div>
+                        <span style={{ fontSize: 12, color: '#94a3b8' }}>System Online</span>
                     </div>
                 </div>
 
                 {/* Page content */}
-                <div className="p-8">
+                <div style={{ padding: 32, flex: 1 }}>
                     {children}
                 </div>
             </main>
