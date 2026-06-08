@@ -6,6 +6,7 @@ import Layout from './components/Layout'
 import ProtectedRoute from './components/ProtectedRoute'
 import useAuth from './context/useAuth'
 import Medications from './pages/Medications'
+import Suppliers from './pages/Suppliers'
 
 const RoleRouter = () => {
     const { user } = useAuth()
@@ -31,6 +32,12 @@ function App() {
                         <Layout><AdminDashboard /></Layout>
                     </ProtectedRoute>
                 } />
+
+                <Route path="/suppliers" element={
+    <ProtectedRoute>
+        <Layout><Suppliers /></Layout>
+    </ProtectedRoute>
+} />
 
                 {/* Pharmacist Routes */}
                 <Route path="/dashboard" element={

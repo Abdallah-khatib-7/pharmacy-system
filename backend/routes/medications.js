@@ -7,11 +7,13 @@ const router = express.Router();
 // Get all medications with ingredient name
 router.get('/', verifyToken, (req, res) => {
     db.query(
-        `SELECT m.id, m.ingredient_id, m.brand_name, m.dosage, m.form, m.stock, 
-        m.purchase_price, m.selling_price, m.expiry,
-        ai.name as ingredient_name
+        `SELECT m.id, m.ingredient_id, m.brand_name, m.dosage, m.form, m.stock,
+        m.purchase_price, m.selling_price, m.expiry, m.supplier_id,
+        ai.name as ingredient_name,
+        s.name as supplier_name
         FROM medications m
         JOIN active_ingredients ai ON m.ingredient_id = ai.id
+        LEFT JOIN suppliers s ON m.supplier_id = s.id
         ORDER BY m.brand_name ASC`,
         (err, results) => {
             if (err) return res.status(500).json({ error: 'Database error' });
@@ -22,15 +24,15 @@ router.get('/', verifyToken, (req, res) => {
 
 // Add a medication
 router.post('/', verifyToken, (req, res) => {
-    const { ingredient_id, brand_name, dosage, form, stock, purchase_price, selling_price, expiry } = req.body;
+    const { ingredient_id, brand_name, dosage, form, stock, purchase_price, selling_price, supplier_id, expiry } = req.body;
 
     if (!ingredient_id || !brand_name || !dosage || !form || !stock || !purchase_price || !selling_price || !expiry) {
         return res.status(400).json({ error: 'All fields are required' });
     }
 
     db.query(
-        'INSERT INTO medications (ingredient_id, brand_name, dosage, form, stock, purchase_price, selling_price, expiry) VALUES (?, ?, ?, ?, ?, ?, ?, ?)',
-        [ingredient_id, brand_name, dosage, form, stock, purchase_price, selling_price, expiry],
+        'INSERT INTO medications (ingredient_id, brand_name, dosage, form, stock, purchase_price, selling_price, supplier_id, expiry) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)',
+        [ingredient_id, brand_name, dosage, form, stock, purchase_price, selling_price, supplier_id || null, expiry],
         (err, result) => {
             if (err) return res.status(500).json({ error: 'Database error' });
             res.status(201).json({ message: 'Medication added', id: result.insertId });
@@ -41,15 +43,15 @@ router.post('/', verifyToken, (req, res) => {
 // Update a medication
 router.put('/:id', verifyToken, (req, res) => {
     const { id } = req.params;
-    const { ingredient_id, brand_name, dosage, form, stock, purchase_price, selling_price, expiry } = req.body;
+    const { ingredient_id, brand_name, dosage, form, stock, purchase_price, selling_price, supplier_id, expiry } = req.body;
 
     if (!ingredient_id || !brand_name || !dosage || !form || !stock || !purchase_price || !selling_price || !expiry) {
         return res.status(400).json({ error: 'All fields are required' });
     }
 
     db.query(
-        'UPDATE medications SET ingredient_id=?, brand_name=?, dosage=?, form=?, stock=?, purchase_price=?, selling_price=?, expiry=? WHERE id=?',
-        [ingredient_id, brand_name, dosage, form, stock, purchase_price, selling_price, expiry, id],
+        'UPDATE medications SET ingredient_id=?, brand_name=?, dosage=?, form=?, stock=?, purchase_price=?, selling_price=?, supplier_id=?, expiry=? WHERE id=?',
+        [ingredient_id, brand_name, dosage, form, stock, purchase_price, selling_price, supplier_id || null, expiry, id],
         (err, result) => {
             if (err) return res.status(500).json({ error: 'Database error' });
             if (result.affectedRows === 0) return res.status(404).json({ error: 'Medication not found' });
@@ -92,12 +94,14 @@ router.get('/alerts/low-stock', verifyToken, (req, res) => {
 // Expiring soon alerts
 router.get('/alerts/expiring-soon', verifyToken, (req, res) => {
     db.query(
-        `SELECT m.id, m.brand_name, m.dosage, m.form, m.stock, m.expiry,
-        ai.name as ingredient_name
-        FROM medications m
-        JOIN active_ingredients ai ON m.ingredient_id = ai.id
-        WHERE m.expiry <= DATE_ADD(NOW(), INTERVAL 90 DAY) AND m.expiry >= NOW()
-        ORDER BY m.expiry ASC`,
+        `SELECT m.id, m.ingredient_id, m.brand_name, m.dosage, m.form, m.stock, 
+m.purchase_price, m.selling_price, m.expiry, m.supplier_id,
+ai.name as ingredient_name,
+s.name as supplier_name
+FROM medications m
+JOIN active_ingredients ai ON m.ingredient_id = ai.id
+LEFT JOIN suppliers s ON m.supplier_id = s.id
+ORDER BY m.brand_name ASC`,
         (err, results) => {
             if (err) return res.status(500).json({ error: 'Database error' });
             res.json(results);

@@ -68,6 +68,7 @@ const Medications = () => {
 
     const [medications, setMedications] = useState([])
     const [ingredients, setIngredients] = useState([])
+    const [suppliers, setSuppliers] = useState([])
     const [loading, setLoading] = useState(true)
     const [showPanel, setShowPanel] = useState(false)
     const [editItem, setEditItem] = useState(null)
@@ -86,23 +87,26 @@ const Medications = () => {
 
     const [form, setForm] = useState({
         ingredient_id: '',
-        brand_name: '',
-        dosage: '',
-        form: '',
-        stock: '',
-        purchase_price: '',
-        selling_price: '',
-        expiry: ''
+    brand_name: '',
+    dosage: '',
+    form: '',
+    stock: '',
+    purchase_price: '',
+    selling_price: '',
+    supplier_id: '',
+    expiry: ''
     })
 
     const fetchData = async () => {
         try {
-            const [meds, ings] = await Promise.all([
+            const [meds, ings, sups] = await Promise.all([
                 api.get('/medications'),
-                api.get('/ingredients')
+                api.get('/ingredients'),
+                api.get('/suppliers')
             ])
             setMedications(meds.data)
             setIngredients(ings.data)
+            setSuppliers(sups.data)
         } catch (err) {
             console.error(err)
         } finally {
@@ -117,7 +121,7 @@ const Medications = () => {
 
     const openAdd = () => {
         setEditItem(null)
-        setForm({ ingredient_id: '', brand_name: '', dosage: '', form: '', stock: '', purchase_price: '', selling_price: '', expiry: '' })
+        setForm({ ingredient_id: '', brand_name: '', dosage: '', form: '', stock: '', purchase_price: '', selling_price: '', supplier_id: '', expiry: '' })
         setError('')
         setNewIngredient('')
         setShowPanel(true)
@@ -127,13 +131,14 @@ const Medications = () => {
         setEditItem(med)
         setForm({
             ingredient_id: med.ingredient_id,
-            brand_name: med.brand_name,
-            dosage: med.dosage,
-            form: med.form,
-            stock: med.stock,
-            purchase_price: med.purchase_price,
-            selling_price: med.selling_price,
-            expiry: med.expiry?.split('T')[0]
+        brand_name: med.brand_name,
+        dosage: med.dosage,
+        form: med.form,
+        stock: med.stock,
+        purchase_price: med.purchase_price,
+        selling_price: med.selling_price,
+        supplier_id: med.supplier_id || '',
+        expiry: med.expiry?.split('T')[0]
         })
         setError('')
         setNewIngredient('')
@@ -503,6 +508,21 @@ const Medications = () => {
                             />
                         </div>
                     </div>
+                        
+{/* Supplier */}
+<div>
+    <label className="block text-sm font-semibold text-slate-600 mb-2">Supplier</label>
+    <select
+        value={form.supplier_id}
+        onChange={(e) => setForm({ ...form, supplier_id: e.target.value })}
+        className="w-full border border-slate-200 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 bg-slate-50"
+    >
+        <option value="">Select supplier...</option>
+        {suppliers.map(s => (
+            <option key={s.id} value={s.id}>{s.name}</option>
+        ))}
+    </select>
+</div>
 
                     {/* Prices */}
                     <div className="grid grid-cols-2 gap-3">
