@@ -129,25 +129,34 @@ const Prescriptions = () => {
 
     // Group prescriptions by id since each medication is a separate row
     const grouped = prescriptions.reduce((acc, row) => {
-        if (!acc[row.id]) {
-            acc[row.id] = {
-                id: row.id,
-                patient_name: row.patient_name,
-                status: row.status,
-                notes: row.notes,
-                created_at: row.created_at,
-                pharmacist_name: row.pharmacist_name,
-                medications: []
-            }
+    if (!acc[row.id]) {
+        acc[row.id] = {
+            id: row.id,
+            patient_name: row.patient_name,
+            doctor_name: row.doctor_name,
+            prescription_date: row.prescription_date,
+            diagnosis: row.diagnosis,
+            insurance: row.insurance,
+            insurance_company: row.insurance_company,
+            insurance_coverage: row.insurance_coverage,
+            hospitalized: row.hospitalized,
+            status: row.status,
+            notes: row.notes,
+            created_at: row.created_at,
+            pharmacist_name: row.pharmacist_name,
+            medications: []
         }
-        if (row.medication_name) {
-            acc[row.id].medications.push({
-                name: row.medication_name,
-                quantity: row.quantity
-            })
-        }
-        return acc
-    }, {})
+    }
+    if (row.medication_name) {
+        acc[row.id].medications.push({
+            name: row.medication_name,
+            quantity: row.quantity,
+            selling_price: row.selling_price,
+            instructions: row.instructions
+        })
+    }
+    return acc
+}, {})
 
     const groupedList = Object.values(grouped)
     const filtered = groupedList.filter(p =>
@@ -261,101 +270,190 @@ const Prescriptions = () => {
 
             {/* Prescription Detail Panel */}
             {selectedPrescription && (
-                <div className="fixed inset-0 z-50 flex">
-                    <div className="absolute inset-0  " onClick={() => setSelectedPrescription(null)} />
-                    <div className="relative ml-auto w-full max-w-xl bg-white h-full shadow-2xl flex flex-col z-10"
-                        style={{ animation: 'slideIn 0.3s ease-out' }}>
-                        <div className="flex items-center justify-between px-6 py-5 border-b border-slate-100">
+    <div className="fixed inset-0 z-50 flex">
+        <div className="absolute inset-0" style={{ backgroundColor: 'rgba(15, 23, 42, 0.4)' }} onClick={() => setSelectedPrescription(null)} />
+        <div className="relative ml-auto w-full max-w-xl bg-white h-full shadow-2xl flex flex-col z-10"
+            style={{ animation: 'slideIn 0.3s ease-out' }}>
+            <div className="flex items-center justify-between px-6 py-5 border-b border-slate-100">
+                <div>
+                    <h2 className="text-lg font-bold text-slate-800">Prescription Details</h2>
+                    <p className="text-sm text-slate-400">{selectedPrescription.patient_name}</p>
+                </div>
+                <button onClick={() => setSelectedPrescription(null)} className="p-2 hover:bg-slate-100 rounded-xl transition">
+                    <X size={20} color="#64748b" />
+                </button>
+            </div>
+            <div className="flex-1 overflow-y-auto p-6">
+                <div className="space-y-5">
+
+                    {/* Status Badge */}
+                    <div className={`flex items-center gap-2 px-4 py-2 rounded-xl w-fit ${getStatusStyle(selectedPrescription.status).bg}`}>
+                        {(() => { const S = getStatusStyle(selectedPrescription.status); return <S.icon size={16} color={S.color} /> })()}
+                        <span className={`font-semibold text-sm capitalize ${getStatusStyle(selectedPrescription.status).text}`}>
+                            {selectedPrescription.status}
+                        </span>
+                    </div>
+
+                    {/* Patient & Prescription Info */}
+                    <div className="bg-slate-50 rounded-2xl p-4 space-y-3">
+                        <h3 className="font-bold text-slate-700 text-sm uppercase tracking-wide">Patient Information</h3>
+                        <div className="grid grid-cols-2 gap-3">
                             <div>
-                                <h2 className="text-lg font-bold text-slate-800">Prescription Details</h2>
-                                <p className="text-sm text-slate-400">{selectedPrescription.patient_name}</p>
+                                <p className="text-xs text-slate-400 mb-0.5">Patient Name</p>
+                                <p className="text-sm font-semibold text-slate-700">{selectedPrescription.patient_name}</p>
                             </div>
-                            <button onClick={() => setSelectedPrescription(null)} className="p-2 hover:bg-slate-100 rounded-xl transition">
-                                <X size={20} color="#64748b" />
-                            </button>
-                        </div>
-                        <div className="flex-1 overflow-y-auto p-6">
-                            <div className="space-y-6">
-                                {/* Info */}
-                                <div className="bg-slate-50 rounded-2xl p-4 space-y-2">
-                                    <div className="flex justify-between text-sm">
-                                        <span className="text-slate-400">Patient</span>
-                                        <span className="font-semibold text-slate-700">{selectedPrescription.patient_name}</span>
-                                    </div>
-                                    <div className="flex justify-between text-sm">
-                                        <span className="text-slate-400">Pharmacist</span>
-                                        <span className="font-semibold text-slate-700">{selectedPrescription.pharmacist_name}</span>
-                                    </div>
-                                    <div className="flex justify-between text-sm">
-                                        <span className="text-slate-400">Date</span>
-                                        <span className="font-semibold text-slate-700">{new Date(selectedPrescription.created_at).toLocaleDateString()}</span>
-                                    </div>
-                                    <div className="flex justify-between text-sm">
-                                        <span className="text-slate-400">Status</span>
-                                        <span className={`font-semibold capitalize ${getStatusStyle(selectedPrescription.status).text}`}>
-                                            {selectedPrescription.status}
-                                        </span>
-                                    </div>
-                                    {selectedPrescription.notes && (
-                                        <div className="flex justify-between text-sm">
-                                            <span className="text-slate-400">Notes</span>
-                                            <span className="font-semibold text-slate-700">{selectedPrescription.notes}</span>
-                                        </div>
-                                    )}
-                                </div>
-
-                                {/* Medications */}
-                                <div>
-                                    <h3 className="font-bold text-slate-700 mb-3">Medications</h3>
-                                    <div className="space-y-2">
-                                        {selectedPrescription.medications.map((med, i) => (
-                                            <div key={i} className="flex items-center justify-between p-3 bg-white border border-slate-100 rounded-xl">
-                                                <div className="flex items-center gap-3">
-                                                    <div className="w-8 h-8 bg-violet-100 rounded-lg flex items-center justify-center">
-                                                        <Pill size={14} color="#7c3aed" />
-                                                    </div>
-                                                    <p className="text-sm font-semibold text-slate-700">{med.name}</p>
-                                                </div>
-                                                <span className="text-sm text-slate-500">x{med.quantity}</span>
-                                            </div>
-                                        ))}
-                                    </div>
-                                </div>
-
-                                {/* Actions */}
-                                {selectedPrescription.status === 'pending' && (
-                                    <div className="flex gap-3">
-                                        <button
-                                            onClick={() => handleStatusChange(selectedPrescription.id, 'dispensed')}
-                                            className="flex-1 bg-green-500 hover:bg-green-600 text-white py-3 rounded-xl font-semibold transition flex items-center justify-center gap-2"
-                                        >
-                                            <CheckCircle size={18} color="white" />
-                                            Mark Dispensed
-                                        </button>
-                                        <button
-                                            onClick={() => handleStatusChange(selectedPrescription.id, 'cancelled')}
-                                            className="flex-1 bg-red-500 hover:bg-red-600 text-white py-3 rounded-xl font-semibold transition flex items-center justify-center gap-2"
-                                        >
-                                            <XCircle size={18} color="white" />
-                                            Cancel
-                                        </button>
-                                    </div>
-                                )}
-                                {selectedPrescription.status === 'dispensed' && (
-                                    <div className="bg-green-50 border border-green-200 rounded-xl p-4 text-center">
-                                        <p className="text-green-700 font-semibold text-sm">Prescription has been dispensed</p>
-                                    </div>
-                                )}
-                                {selectedPrescription.status === 'cancelled' && (
-                                    <div className="bg-red-50 border border-red-200 rounded-xl p-4 text-center">
-                                        <p className="text-red-700 font-semibold text-sm">Prescription was cancelled</p>
-                                    </div>
-                                )}
+                            <div>
+                                <p className="text-xs text-slate-400 mb-0.5">Doctor</p>
+                                <p className="text-sm font-semibold text-slate-700">{selectedPrescription.doctor_name || '—'}</p>
                             </div>
+                            <div>
+                                <p className="text-xs text-slate-400 mb-0.5">Prescription Date</p>
+                                <p className="text-sm font-semibold text-slate-700">
+                                    {selectedPrescription.prescription_date
+                                        ? new Date(selectedPrescription.prescription_date).toLocaleDateString()
+                                        : '—'}
+                                </p>
+                            </div>
+                            <div>
+                                <p className="text-xs text-slate-400 mb-0.5">Dispensed On</p>
+                                <p className="text-sm font-semibold text-slate-700">
+                                    {new Date(selectedPrescription.created_at).toLocaleDateString()}
+                                </p>
+                            </div>
+                            <div className="col-span-2">
+                                <p className="text-xs text-slate-400 mb-0.5">Diagnosis</p>
+                                <p className="text-sm font-semibold text-slate-700">{selectedPrescription.diagnosis || '—'}</p>
+                            </div>
+                            <div className="col-span-2">
+                                <p className="text-xs text-slate-400 mb-0.5">Pharmacist</p>
+                                <p className="text-sm font-semibold text-slate-700">{selectedPrescription.pharmacist_name}</p>
+                            </div>
+                            {selectedPrescription.notes && (
+                                <div className="col-span-2">
+                                    <p className="text-xs text-slate-400 mb-0.5">Notes</p>
+                                    <p className="text-sm font-semibold text-slate-700">{selectedPrescription.notes}</p>
+                                </div>
+                            )}
                         </div>
                     </div>
+
+                    {/* Flags */}
+                    <div className="flex gap-2 flex-wrap">
+                        {selectedPrescription.hospitalized && (
+                            <span className="bg-orange-100 text-orange-700 text-xs font-semibold px-3 py-1.5 rounded-full">
+                                Hospitalized Patient
+                            </span>
+                        )}
+                        {selectedPrescription.insurance && (
+                            <span className="bg-blue-100 text-blue-700 text-xs font-semibold px-3 py-1.5 rounded-full">
+                                Insured — {selectedPrescription.insurance_company || 'Unknown'}
+                                {selectedPrescription.insurance_coverage ? ` (${selectedPrescription.insurance_coverage}%)` : ''}
+                            </span>
+                        )}
+                    </div>
+
+                    {/* Medications */}
+                    <div>
+                        <h3 className="font-bold text-slate-700 mb-3">Medications</h3>
+                        <div className="space-y-2">
+                            {selectedPrescription.medications.map((med, i) => (
+                                <div key={i} className="bg-white border border-slate-100 rounded-xl p-4">
+                                    <div className="flex items-center justify-between mb-2">
+                                        <div className="flex items-center gap-3">
+                                            <div className="w-8 h-8 bg-violet-100 rounded-lg flex items-center justify-center">
+                                                <Pill size={14} color="#7c3aed" />
+                                            </div>
+                                            <p className="font-semibold text-slate-700">{med.name}</p>
+                                        </div>
+                                        <span className="bg-violet-100 text-violet-700 text-xs font-bold px-2.5 py-1 rounded-full">
+                                            x{med.quantity}
+                                        </span>
+                                    </div>
+                                    {med.instructions && (
+                                        <p className="text-xs text-slate-500 ml-11">{med.instructions}</p>
+                                    )}
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+
+                    {/* Price Summary */}
+                    {selectedPrescription.medications.length > 0 && (
+                        <div className="bg-slate-50 rounded-2xl p-4">
+                            <h3 className="font-bold text-slate-700 text-sm mb-3">Price Summary</h3>
+                            {selectedPrescription.medications.map((med, i) => (
+                                <div key={i} className="flex justify-between text-sm py-1">
+                                    <span className="text-slate-500">{med.name} ×{med.quantity}</span>
+                                    <span className="font-medium text-slate-700">
+                                        ${med.selling_price ? (med.selling_price * med.quantity).toFixed(2) : '—'}
+                                    </span>
+                                </div>
+                            ))}
+                            <div className="border-t border-slate-200 mt-2 pt-2 flex justify-between">
+                                <span className="font-bold text-slate-700">Total</span>
+                                <span className="font-bold text-slate-800">
+                                    ${selectedPrescription.medications.reduce((sum, med) => {
+                                        return sum + ((med.selling_price || 0) * med.quantity)
+                                    }, 0).toFixed(2)}
+                                </span>
+                            </div>
+                            {selectedPrescription.insurance && selectedPrescription.insurance_coverage && (
+                                <div className="mt-2 flex justify-between text-sm">
+                                    <span className="text-green-600">Insurance covers ({selectedPrescription.insurance_coverage}%)</span>
+                                    <span className="font-bold text-green-600">
+                                        -${(selectedPrescription.medications.reduce((sum, med) => {
+                                            return sum + ((med.selling_price || 0) * med.quantity)
+                                        }, 0) * selectedPrescription.insurance_coverage / 100).toFixed(2)}
+                                    </span>
+                                </div>
+                            )}
+                            {selectedPrescription.insurance && selectedPrescription.insurance_coverage && (
+                                <div className="mt-2 bg-violet-50 rounded-xl p-3 flex justify-between">
+                                    <span className="font-bold text-slate-700">Patient Pays</span>
+                                    <span className="font-bold text-violet-700">
+                                        ${(selectedPrescription.medications.reduce((sum, med) => {
+                                            return sum + ((med.selling_price || 0) * med.quantity)
+                                        }, 0) * (1 - selectedPrescription.insurance_coverage / 100)).toFixed(2)}
+                                    </span>
+                                </div>
+                            )}
+                        </div>
+                    )}
+
+                    {/* Actions */}
+                    {selectedPrescription.status === 'pending' && (
+                        <div className="flex gap-3">
+                            <button
+                                onClick={() => handleStatusChange(selectedPrescription.id, 'dispensed')}
+                                className="flex-1 bg-green-500 hover:bg-green-600 text-white py-3 rounded-xl font-semibold transition flex items-center justify-center gap-2"
+                            >
+                                <CheckCircle size={18} color="white" />
+                                Mark Dispensed
+                            </button>
+                            <button
+                                onClick={() => handleStatusChange(selectedPrescription.id, 'cancelled')}
+                                className="flex-1 bg-red-500 hover:bg-red-600 text-white py-3 rounded-xl font-semibold transition flex items-center justify-center gap-2"
+                            >
+                                <XCircle size={18} color="white" />
+                                Cancel
+                            </button>
+                        </div>
+                    )}
+                    {selectedPrescription.status === 'dispensed' && (
+                        <div className="bg-green-50 border border-green-200 rounded-xl p-4 text-center">
+                            <p className="text-green-700 font-semibold text-sm">Prescription has been dispensed</p>
+                        </div>
+                    )}
+                    {selectedPrescription.status === 'cancelled' && (
+                        <div className="bg-red-50 border border-red-200 rounded-xl p-4 text-center">
+                            <p className="text-red-700 font-semibold text-sm">Prescription was cancelled</p>
+                        </div>
+                    )}
                 </div>
-            )}
+            </div>
+        </div>
+    </div>
+)}
 
             {/* New Prescription Panel */}
             <SlidePanel
