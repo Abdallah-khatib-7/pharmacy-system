@@ -120,7 +120,7 @@ const NewPrescription = () => {
                 </div>
             )}
 
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 items-start">
                 {/* Left — Patient & Prescription Info */}
                 <div className="lg:col-span-2 space-y-6">
                     {/* Patient Information */}
@@ -223,7 +223,7 @@ const NewPrescription = () => {
                                 <button onClick={addItem} className="text-sm text-violet-600 font-medium mt-1">+ Add first medication</button>
                             </div>
                         ) : (
-                            <div className="space-y-4">
+                            <div className="space-y-4 ">
                                 {form.items.map((item, index) => {
                                     const med = getSelectedMed(item.medication_id)
                                     const outOfStock = med && med.stock === 0
@@ -311,6 +311,23 @@ const NewPrescription = () => {
 
                 {/* Right — Summary */}
                 <div className="space-y-4">
+                    {/* Patient Flags */}
+                    {(form.hospitalized || form.insurance) && (
+                        <div className="bg-white rounded-2xl border border-slate-100 shadow-sm p-4">
+                            <h3 className="font-bold text-slate-700 text-sm mb-3">Patient Flags</h3>
+                            {form.hospitalized && (
+                                <div className="bg-orange-50 border border-orange-100 rounded-xl px-3 py-2 text-xs text-orange-700 font-semibold mb-2">
+                                    Hospitalized Patient
+                                </div>
+                            )}
+                            {form.insurance && (
+                                <div className="bg-blue-50 border border-blue-100 rounded-xl px-3 py-2 text-xs text-blue-700 font-semibold">
+                                    Insurance: {form.insurance_company || 'Not specified'} {form.insurance_coverage ? `(${form.insurance_coverage}%)` : ''}
+                                </div>
+                            )}
+                        </div>
+                    )}
+
                     {/* Price Summary */}
                     <div className="bg-white rounded-2xl border border-slate-100 shadow-sm p-6 sticky top-6">
                         <h2 className="font-bold text-slate-700 mb-4 pb-3 border-b border-slate-100">
@@ -375,23 +392,6 @@ const NewPrescription = () => {
                             Cancel
                         </button>
                     </div>
-
-                    {/* Patient flags */}
-                    {(form.hospitalized || form.insurance) && (
-                        <div className="bg-white rounded-2xl border border-slate-100 shadow-sm p-4">
-                            <h3 className="font-bold text-slate-700 text-sm mb-3">Patient Flags</h3>
-                            {form.hospitalized && (
-                                <div className="bg-orange-50 border border-orange-100 rounded-xl px-3 py-2 text-xs text-orange-700 font-semibold mb-2">
-                                    Hospitalized Patient
-                                </div>
-                            )}
-                            {form.insurance && (
-                                <div className="bg-blue-50 border border-blue-100 rounded-xl px-3 py-2 text-xs text-blue-700 font-semibold">
-                                    Insurance: {form.insurance_company || 'Not specified'} {form.insurance_coverage ? `(${form.insurance_coverage}%)` : ''}
-                                </div>
-                            )}
-                        </div>
-                    )}
                 </div>
             </div>
         </div>
