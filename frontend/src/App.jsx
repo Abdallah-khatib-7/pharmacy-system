@@ -9,6 +9,7 @@ import Medications from './pages/Medications'
 import Suppliers from './pages/Suppliers'
 import Orders from './pages/Orders'
 import PurchaseEntry from './pages/PurchaseEntry'
+import Alerts from './pages/Alerts'
 
 const RoleRouter = () => {
     const { user } = useAuth()
@@ -51,6 +52,13 @@ function App() {
 <Route path="/orders/:id/purchase-entry" element={
     <ProtectedRoute>
         <Layout><PurchaseEntry /></Layout>
+    </ProtectedRoute>
+} />
+
+
+<Route path="/alerts" element={
+    <ProtectedRoute>
+        <Layout><Alerts /></Layout>
     </ProtectedRoute>
 } />
 

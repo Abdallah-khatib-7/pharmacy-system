@@ -82,3 +82,15 @@ CREATE TABLE IF NOT EXISTS order_items (
     FOREIGN KEY (order_id) REFERENCES orders(id),
     FOREIGN KEY (medication_id) REFERENCES medications(id)
 );
+
+
+CREATE TABLE IF NOT EXISTS dismissed_alerts (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    medication_id INT NOT NULL,
+    alert_type ENUM('low_stock', 'expiry') NOT NULL,
+    dismissed_by INT NOT NULL,
+    remind_at DATE NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (medication_id) REFERENCES medications(id),
+    FOREIGN KEY (dismissed_by) REFERENCES users(id)
+);

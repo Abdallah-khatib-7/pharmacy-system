@@ -6,6 +6,7 @@ const prescriptionRoutes = require('./routes/prescriptions');
 const ingredientRoutes = require('./routes/ingredients');
 const cors = require('cors')
 const orderRoutes = require('./routes/orders');
+const alertRoutes = require('./routes/alerts');
 
 const app = express();
 app.use(express.json());
@@ -17,6 +18,7 @@ app.use('/api/suppliers', supplierRoutes);
 app.use('/api/prescriptions', prescriptionRoutes);
 app.use('/api/ingredients', ingredientRoutes);
 app.use('/api/orders', orderRoutes);
+app.use('/api/alerts', alertRoutes);
 
 app.listen(5000, () => {
     console.log('Server is running on port 5000');
