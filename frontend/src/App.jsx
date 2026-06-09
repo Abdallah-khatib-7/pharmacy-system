@@ -10,6 +10,9 @@ import Suppliers from './pages/Suppliers'
 import Orders from './pages/Orders'
 import PurchaseEntry from './pages/PurchaseEntry'
 import Alerts from './pages/Alerts'
+import Ingredients from './pages/Ingredients'
+import PharmacareAI from './pages/PharmacareAI'
+import DosageCalculator from './pages/DosageCalculator'
 
 const RoleRouter = () => {
     const { user } = useAuth()
@@ -62,6 +65,26 @@ function App() {
     </ProtectedRoute>
 } />
 
+
+<Route path="/ingredients" element={
+    <ProtectedRoute>
+        <Layout><Ingredients /></Layout>
+    </ProtectedRoute>
+} />
+
+
+<Route path="/ai" element={
+    <ProtectedRoute>
+        <Layout><PharmacareAI /></Layout>
+    </ProtectedRoute>
+} />
+
+
+<Route path="/calculator" element={
+    <ProtectedRoute>
+        <Layout><DosageCalculator /></Layout>
+    </ProtectedRoute>
+} />
                 {/* Pharmacist Routes */}
                 <Route path="/dashboard" element={
                     <ProtectedRoute>

@@ -9,7 +9,7 @@ router.get('/', verifyToken, (req, res) => {
     db.query(
         `SELECT p.id, p.patient_name, p.status, p.notes, p.created_at,
         u.name as pharmacist_name,
-        m.name as medication_name,
+        m.brand_name as medication_name,
         pi.quantity
         FROM prescriptions p
         JOIN users u ON p.pharmacist_id = u.id
@@ -18,6 +18,7 @@ router.get('/', verifyToken, (req, res) => {
         ORDER BY p.created_at DESC`,
         (err, results) => {
             if (err) {
+                 console.log('Prescriptions error:', err)
                 return res.status(500).json({ error: 'Database error' });
             }
             res.json(results);
