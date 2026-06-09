@@ -45,8 +45,15 @@ CREATE TABLE IF NOT EXISTS medications (
 CREATE TABLE IF NOT EXISTS prescriptions (
     id INT AUTO_INCREMENT PRIMARY KEY,
     patient_name VARCHAR(255) NOT NULL,
+    doctor_name VARCHAR(255),
+    prescription_date DATE,
+    diagnosis TEXT,
+    insurance BOOLEAN DEFAULT FALSE,
+    insurance_company VARCHAR(255),
+    insurance_coverage DECIMAL(5,2) DEFAULT 0,
+    hospitalized BOOLEAN DEFAULT FALSE,
     pharmacist_id INT NOT NULL,
-    status ENUM('pending', 'processing', 'received', 'cancelled') DEFAULT 'pending',
+    status ENUM('pending', 'dispensed', 'cancelled') DEFAULT 'pending',
     notes TEXT,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (pharmacist_id) REFERENCES users(id)
@@ -79,10 +86,11 @@ CREATE TABLE IF NOT EXISTS order_items (
     medication_id INT NOT NULL,
     quantity INT NOT NULL,
     unit_price DECIMAL(10,2) NOT NULL,
+    expiry DATE,
+    notes TEXT,
     FOREIGN KEY (order_id) REFERENCES orders(id),
     FOREIGN KEY (medication_id) REFERENCES medications(id)
 );
-
 
 CREATE TABLE IF NOT EXISTS dismissed_alerts (
     id INT AUTO_INCREMENT PRIMARY KEY,

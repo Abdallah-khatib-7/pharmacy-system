@@ -13,6 +13,8 @@ import Alerts from './pages/Alerts'
 import Ingredients from './pages/Ingredients'
 import PharmacareAI from './pages/PharmacareAI'
 import DosageCalculator from './pages/DosageCalculator'
+import Prescriptions from './pages/Prescriptions'
+import NewPrescription from './pages/NewPrescription'
 
 const RoleRouter = () => {
     const { user } = useAuth()
@@ -58,6 +60,12 @@ function App() {
     </ProtectedRoute>
 } />
 
+<Route path="/prescriptions" element={
+    <ProtectedRoute>
+        <Layout><Prescriptions /></Layout>
+    </ProtectedRoute>
+} />
+
 
 <Route path="/alerts" element={
     <ProtectedRoute>
@@ -83,6 +91,12 @@ function App() {
 <Route path="/calculator" element={
     <ProtectedRoute>
         <Layout><DosageCalculator /></Layout>
+    </ProtectedRoute>
+} />
+
+<Route path="/prescriptions/new" element={
+    <ProtectedRoute>
+        <Layout><NewPrescription /></Layout>
     </ProtectedRoute>
 } />
                 {/* Pharmacist Routes */}

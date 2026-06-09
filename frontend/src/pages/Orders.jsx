@@ -15,7 +15,7 @@ const SlidePanel = ({ open, onClose, title, children }) => (
     <>
         {open && (
             <div className="fixed inset-0 z-50 flex">
-                <div className="absolute inset-0 bg-black bg-opacity-40" onClick={onClose} />
+                <div className="absolute inset-0 " onClick={onClose} />
                 <div className="relative ml-auto w-full max-w-xl bg-white h-full shadow-2xl flex flex-col z-10"
                     style={{ animation: 'slideIn 0.3s ease-out' }}>
                     <div className="flex items-center justify-between px-6 py-5 border-b border-slate-100">
@@ -247,7 +247,7 @@ const Orders = () => {
             {/* Order Detail Panel */}
             {selectedOrder && (
                 <div className="fixed inset-0 z-50 flex">
-                    <div className="absolute inset-0 bg-black bg-opacity-40" onClick={() => { setSelectedOrder(null); setOrderDetail(null) }} />
+                    <div className="absolute inset-0 " onClick={() => { setSelectedOrder(null); setOrderDetail(null) }} />
                     <div className="relative ml-auto w-full max-w-xl bg-white h-full shadow-2xl flex flex-col z-10"
                         style={{ animation: 'slideIn 0.3s ease-out' }}>
                         <div className="flex items-center justify-between px-6 py-5 border-b border-slate-100">
