@@ -15,6 +15,7 @@ import PharmacareAI from './pages/PharmacareAI'
 import DosageCalculator from './pages/DosageCalculator'
 import Prescriptions from './pages/Prescriptions'
 import NewPrescription from './pages/NewPrescription'
+import Users from './pages/Users'
 
 const RoleRouter = () => {
     const { user } = useAuth()
@@ -87,6 +88,11 @@ function App() {
     </ProtectedRoute>
 } />
 
+<Route path="/users" element={
+                    <ProtectedRoute adminOnly>
+                        <Layout><Users /></Layout>
+                    </ProtectedRoute>
+                } />
 
 <Route path="/calculator" element={
     <ProtectedRoute>

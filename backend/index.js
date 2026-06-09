@@ -8,6 +8,7 @@ const cors = require('cors')
 const orderRoutes = require('./routes/orders');
 const alertRoutes = require('./routes/alerts');
 const aiRoutes = require('./routes/ai');
+const userRoutes = require('./routes/users');
 
 const app = express();
 app.use(express.json());
@@ -21,6 +22,7 @@ app.use('/api/ingredients', ingredientRoutes);
 app.use('/api/orders', orderRoutes);
 app.use('/api/alerts', alertRoutes);
 app.use('/api/ai', aiRoutes);
+app.use('/api/users', userRoutes);
 
 app.listen(5000, () => {
     console.log('Server is running on port 5000');
