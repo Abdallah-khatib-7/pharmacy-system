@@ -23,108 +23,108 @@ INSERT INTO active_ingredients (name) VALUES
 ('Tramadol'),
 ('Codeine');
 
--- Medications (ingredient_id, brand_name, dosage, form, stock, purchase_price, selling_price, expiry)
-INSERT INTO medications (ingredient_id, brand_name, dosage, form, stock, purchase_price, selling_price, expiry) VALUES
--- Ibuprofen
-(1, 'Profinal', '400mg', 'tablet', 120, 1.50, 2.50, '2027-06-01'),
-(1, 'Profinal XP', '400mg', 'tablet', 8, 1.80, 3.00, '2026-09-15'),
-(1, 'Advil', '200mg', 'tablet', 95, 2.00, 3.50, '2027-03-20'),
-(1, 'Brufen', '400mg', 'syrup', 40, 2.50, 4.00, '2026-08-10'),
-(1, 'Nurofen', '200mg', 'tablet', 3, 2.20, 3.80, '2026-07-01'),
-
--- Paracetamol
-(2, 'Panadol', '500mg', 'tablet', 200, 1.00, 1.80, '2027-12-01'),
-(2, 'Panadol Extra', '500mg', 'tablet', 150, 1.20, 2.00, '2027-08-15'),
-(2, 'Acamol', '500mg', 'tablet', 12, 0.90, 1.60, '2026-09-01'),
-(2, 'Dymadon', '250mg', 'syrup', 60, 1.50, 2.50, '2027-01-20'),
-(2, 'Tempra', '120mg', 'syrup', 5, 1.40, 2.30, '2026-07-15'),
-
--- Amoxicillin
-(3, 'Amoxil', '500mg', 'capsule', 80, 3.00, 5.00, '2027-04-10'),
-(3, 'Augmentin', '625mg', 'tablet', 45, 4.50, 7.00, '2026-11-30'),
-(3, 'Clamoxyl', '250mg', 'syrup', 30, 3.50, 5.50, '2026-10-15'),
-(3, 'Trimox', '500mg', 'capsule', 7, 2.80, 4.50, '2026-08-20'),
-
--- Omeprazole
-(4, 'Losec', '20mg', 'capsule', 100, 2.00, 3.50, '2027-09-01'),
-(4, 'Prilosec', '20mg', 'tablet', 75, 2.20, 3.80, '2027-06-15'),
-(4, 'Omez', '40mg', 'capsule', 9, 2.50, 4.00, '2026-07-30'),
-
--- Metformin
-(5, 'Glucophage', '500mg', 'tablet', 180, 1.50, 2.50, '2027-11-01'),
-(5, 'Glucophage XR', '1000mg', 'tablet', 90, 2.00, 3.50, '2027-08-20'),
-(5, 'Diaformin', '850mg', 'tablet', 11, 1.80, 3.00, '2026-09-10'),
-
--- Atorvastatin
-(6, 'Lipitor', '20mg', 'tablet', 110, 3.50, 6.00, '2027-10-15'),
-(6, 'Torvast', '40mg', 'tablet', 6, 4.00, 6.50, '2026-08-01'),
-(6, 'Atorva', '10mg', 'tablet', 85, 3.00, 5.00, '2027-05-20'),
-
--- Amlodipine
-(7, 'Norvasc', '5mg', 'tablet', 130, 2.50, 4.00, '2027-12-10'),
-(7, 'Amlor', '10mg', 'tablet', 4, 3.00, 5.00, '2026-07-20'),
-(7, 'Istin', '5mg', 'tablet', 70, 2.80, 4.50, '2027-09-05'),
-
--- Losartan
-(8, 'Cozaar', '50mg', 'tablet', 95, 3.00, 5.00, '2027-07-15'),
-(8, 'Losartan STADA', '100mg', 'tablet', 13, 2.50, 4.00, '2026-10-01'),
-
--- Azithromycin
-(9, 'Zithromax', '500mg', 'tablet', 55, 5.00, 8.00, '2027-04-20'),
-(9, 'Azithrocin', '250mg', 'capsule', 40, 4.00, 6.50, '2026-11-15'),
-(9, 'Zitrocin', '200mg', 'syrup', 8, 4.50, 7.00, '2026-08-30'),
-
--- Cetirizine
-(10, 'Zyrtec', '10mg', 'tablet', 160, 1.80, 3.00, '2027-10-01'),
-(10, 'Cetirin', '10mg', 'tablet', 90, 1.50, 2.50, '2027-06-20'),
-(10, 'Alerid', '5mg', 'syrup', 6, 2.00, 3.50, '2026-07-10'),
-
--- Loratadine
-(11, 'Claritin', '10mg', 'tablet', 140, 1.80, 3.00, '2027-11-20'),
-(11, 'Clarityne', '10mg', 'tablet', 75, 1.60, 2.80, '2027-08-10'),
-(11, 'Lorfast', '5mg', 'syrup', 10, 2.00, 3.50, '2026-09-25'),
-
--- Metronidazole
-(12, 'Flagyl', '500mg', 'tablet', 100, 1.50, 2.50, '2027-05-15'),
-(12, 'Metrozine', '250mg', 'tablet', 7, 1.20, 2.00, '2026-08-05'),
-(12, 'Flagyl', '125mg', 'syrup', 45, 2.00, 3.50, '2027-02-10'),
-
--- Ciprofloxacin
-(13, 'Ciprobay', '500mg', 'tablet', 65, 4.00, 6.50, '2027-07-01'),
-(13, 'Ciproxin', '250mg', 'tablet', 9, 3.50, 5.50, '2026-09-15'),
-
--- Diclofenac
-(14, 'Voltaren', '50mg', 'tablet', 110, 2.00, 3.50, '2027-08-20'),
-(14, 'Cataflam', '25mg', 'tablet', 80, 1.80, 3.00, '2027-04-10'),
-(14, 'Voltaren Gel', '1%', 'cream', 5, 3.00, 5.00, '2026-07-25'),
-
--- Pantoprazole
-(15, 'Controloc', '40mg', 'tablet', 95, 2.50, 4.00, '2027-09-30'),
-(15, 'Pantoloc', '20mg', 'tablet', 11, 2.00, 3.50, '2026-10-20'),
-
--- Simvastatin
-(16, 'Zocor', '20mg', 'tablet', 85, 3.00, 5.00, '2027-06-10'),
-(16, 'Simvast', '40mg', 'tablet', 4, 3.50, 5.50, '2026-08-15'),
-
--- Lisinopril
-(17, 'Zestril', '10mg', 'tablet', 120, 2.50, 4.00, '2027-11-05'),
-(17, 'Prinivil', '20mg', 'tablet', 8, 3.00, 5.00, '2026-09-20'),
-
--- Doxycycline
-(18, 'Vibramycin', '100mg', 'capsule', 70, 4.00, 6.50, '2027-05-25'),
-(18, 'Doxylin', '100mg', 'tablet', 6, 3.50, 5.50, '2026-07-05'),
-
--- Tramadol
-(19, 'Tramal', '50mg', 'capsule', 60, 3.00, 5.00, '2027-03-15'),
-(19, 'Ultram', '100mg', 'tablet', 9, 3.50, 5.50, '2026-08-25'),
-
--- Codeine
-(20, 'Codipront', '30mg', 'tablet', 45, 4.00, 6.50, '2027-04-05'),
-(20, 'Codipar', '15mg', 'tablet', 3, 3.50, 5.50, '2026-07-18');
-
 -- Suppliers
 INSERT INTO suppliers (name, contact_person, phone, email, address) VALUES
 ('Mersaco', 'Ahmad Hassoun', '01123456', 'ahmad@mersaco.com', 'Beirut, Hamra'),
 ('Pharmaline', 'Georges Khalil', '01234567', 'georges@pharmaline.com', 'Beirut, Achrafieh'),
 ('Omnipharma', 'Rania Sleiman', '03456789', 'rania@omnipharma.com', 'Jounieh'),
 ('CTS', 'Mariam Haddad', '01345678', 'mariam@cts.com', 'Beirut, Verdun');
+
+-- Medications (ingredient_id, brand_name, dosage, form, stock, purchase_price, selling_price, supplier_id, expiry)
+INSERT INTO medications (ingredient_id, brand_name, dosage, form, stock, purchase_price, selling_price, supplier_id, expiry) VALUES
+-- Ibuprofen (ingredient_id=1)
+(1, 'Profinal', '400mg', 'tablet', 120, 1.50, 2.50, 1, '2027-06-01'),
+(1, 'Profinal XP', '400mg', 'tablet', 8, 1.80, 3.00, 1, '2026-09-15'),
+(1, 'Advil', '200mg', 'tablet', 95, 2.00, 3.50, 2, '2027-03-20'),
+(1, 'Brufen', '400mg', 'syrup', 40, 2.50, 4.00, 1, '2026-08-10'),
+(1, 'Nurofen', '200mg', 'tablet', 3, 2.20, 3.80, 1, '2026-07-01'),
+
+-- Paracetamol (ingredient_id=2)
+(2, 'Panadol', '500mg', 'tablet', 200, 1.00, 1.80, 2, '2027-12-01'),
+(2, 'Panadol Extra', '500mg', 'tablet', 150, 1.20, 2.00, 2, '2027-08-15'),
+(2, 'Acamol', '500mg', 'tablet', 12, 0.90, 1.60, 2, '2026-09-01'),
+(2, 'Dymadon', '250mg', 'syrup', 60, 1.50, 2.50, 3, '2027-01-20'),
+(2, 'Tempra', '120mg', 'syrup', 5, 1.40, 2.30, 3, '2026-07-15'),
+
+-- Amoxicillin (ingredient_id=3)
+(3, 'Amoxil', '500mg', 'capsule', 80, 3.00, 5.00, 2, '2027-04-10'),
+(3, 'Augmentin', '625mg', 'tablet', 45, 4.50, 7.00, 2, '2026-11-30'),
+(3, 'Clamoxyl', '250mg', 'syrup', 30, 3.50, 5.50, 3, '2026-10-15'),
+(3, 'Trimox', '500mg', 'capsule', 7, 2.80, 4.50, 3, '2026-08-20'),
+
+-- Omeprazole (ingredient_id=4)
+(4, 'Losec', '20mg', 'capsule', 100, 2.00, 3.50, 3, '2027-09-01'),
+(4, 'Prilosec', '20mg', 'tablet', 75, 2.20, 3.80, 3, '2027-06-15'),
+(4, 'Omez', '40mg', 'capsule', 9, 2.50, 4.00, 3, '2026-07-30'),
+
+-- Metformin (ingredient_id=5)
+(5, 'Glucophage', '500mg', 'tablet', 180, 1.50, 2.50, 3, '2027-11-01'),
+(5, 'Glucophage XR', '1000mg', 'tablet', 90, 2.00, 3.50, 3, '2027-08-20'),
+(5, 'Diaformin', '850mg', 'tablet', 11, 1.80, 3.00, 4, '2026-09-10'),
+
+-- Atorvastatin (ingredient_id=6)
+(6, 'Lipitor', '20mg', 'tablet', 110, 3.50, 6.00, 2, '2027-10-15'),
+(6, 'Torvast', '40mg', 'tablet', 6, 4.00, 6.50, 2, '2026-08-01'),
+(6, 'Atorva', '10mg', 'tablet', 85, 3.00, 5.00, 2, '2027-05-20'),
+
+-- Amlodipine (ingredient_id=7)
+(7, 'Norvasc', '5mg', 'tablet', 130, 2.50, 4.00, 3, '2027-12-10'),
+(7, 'Amlor', '10mg', 'tablet', 4, 3.00, 5.00, 3, '2026-07-20'),
+(7, 'Istin', '5mg', 'tablet', 70, 2.80, 4.50, 3, '2027-09-05'),
+
+-- Losartan (ingredient_id=8)
+(8, 'Cozaar', '50mg', 'tablet', 95, 3.00, 5.00, 4, '2027-07-15'),
+(8, 'Losartan STADA', '100mg', 'tablet', 13, 2.50, 4.00, 4, '2026-10-01'),
+
+-- Azithromycin (ingredient_id=9)
+(9, 'Zithromax', '500mg', 'tablet', 55, 5.00, 8.00, 2, '2027-04-20'),
+(9, 'Azithrocin', '250mg', 'capsule', 40, 4.00, 6.50, 2, '2026-11-15'),
+(9, 'Zitrocin', '200mg', 'syrup', 8, 4.50, 7.00, 4, '2026-08-30'),
+
+-- Cetirizine (ingredient_id=10)
+(10, 'Zyrtec', '10mg', 'tablet', 160, 1.80, 3.00, 3, '2027-10-01'),
+(10, 'Cetirin', '10mg', 'tablet', 90, 1.50, 2.50, 3, '2027-06-20'),
+(10, 'Alerid', '5mg', 'syrup', 6, 2.00, 3.50, 3, '2026-07-10'),
+
+-- Loratadine (ingredient_id=11)
+(11, 'Claritin', '10mg', 'tablet', 140, 1.80, 3.00, 4, '2027-11-20'),
+(11, 'Clarityne', '10mg', 'tablet', 75, 1.60, 2.80, 4, '2027-08-10'),
+(11, 'Lorfast', '5mg', 'syrup', 10, 2.00, 3.50, 4, '2026-09-25'),
+
+-- Metronidazole (ingredient_id=12)
+(12, 'Flagyl', '500mg', 'tablet', 100, 1.50, 2.50, 1, '2027-05-15'),
+(12, 'Metrozine', '250mg', 'tablet', 7, 1.20, 2.00, 1, '2026-08-05'),
+(12, 'Flagyl', '125mg', 'syrup', 45, 2.00, 3.50, 1, '2027-02-10'),
+
+-- Ciprofloxacin (ingredient_id=13)
+(13, 'Ciprobay', '500mg', 'tablet', 65, 4.00, 6.50, 4, '2027-07-01'),
+(13, 'Ciproxin', '250mg', 'tablet', 9, 3.50, 5.50, 4, '2026-09-15'),
+
+-- Diclofenac (ingredient_id=14)
+(14, 'Voltaren', '50mg', 'tablet', 110, 2.00, 3.50, 4, '2027-08-20'),
+(14, 'Cataflam', '25mg', 'tablet', 80, 1.80, 3.00, 4, '2027-04-10'),
+(14, 'Voltaren Gel', '1%', 'cream', 5, 3.00, 5.00, 4, '2026-07-25'),
+
+-- Pantoprazole (ingredient_id=15)
+(15, 'Controloc', '40mg', 'tablet', 95, 2.50, 4.00, 4, '2027-09-30'),
+(15, 'Pantoloc', '20mg', 'tablet', 11, 2.00, 3.50, 4, '2026-10-20'),
+
+-- Simvastatin (ingredient_id=16)
+(16, 'Zocor', '20mg', 'tablet', 85, 3.00, 5.00, 4, '2027-06-10'),
+(16, 'Simvast', '40mg', 'tablet', 4, 3.50, 5.50, 4, '2026-08-15'),
+
+-- Lisinopril (ingredient_id=17)
+(17, 'Zestril', '10mg', 'tablet', 120, 2.50, 4.00, 4, '2027-11-05'),
+(17, 'Prinivil', '20mg', 'tablet', 8, 3.00, 5.00, 4, '2026-09-20'),
+
+-- Doxycycline (ingredient_id=18)
+(18, 'Vibramycin', '100mg', 'capsule', 70, 4.00, 6.50, 4, '2027-05-25'),
+(18, 'Doxylin', '100mg', 'tablet', 6, 3.50, 5.50, 4, '2026-07-05'),
+
+-- Tramadol (ingredient_id=19)
+(19, 'Tramal', '50mg', 'capsule', 60, 3.00, 5.00, 1, '2027-03-15'),
+(19, 'Ultram', '100mg', 'tablet', 9, 3.50, 5.50, 1, '2026-08-25'),
+
+-- Codeine (ingredient_id=20)
+(20, 'Codipront', '30mg', 'tablet', 45, 4.00, 6.50, 1, '2027-04-05'),
+(20, 'Codipar', '15mg', 'tablet', 3, 3.50, 5.50, 1, '2026-07-18');

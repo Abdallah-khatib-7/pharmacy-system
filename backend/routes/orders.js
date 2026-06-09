@@ -43,8 +43,8 @@ router.get('/:id', verifyToken, (req, res) => {
             const order = results[0];
 
             db.query(
-                `SELECT oi.id, oi.quantity, oi.unit_price,
-                m.brand_name, m.dosage, m.form,
+                `SELECT oi.id, oi.quantity, oi.unit_price, oi.expiry, oi.notes,
+                m.id as medication_id, m.brand_name, m.dosage, m.form,
                 ai.name as ingredient_name
                 FROM order_items oi
                 JOIN medications m ON oi.medication_id = m.id
@@ -90,12 +90,12 @@ router.post('/', verifyToken, (req, res) => {
     );
 });
 
-// Update order status — when received, update stock
+// Update order status
 router.put('/:id/status', verifyToken, (req, res) => {
     const { id } = req.params;
     const { status } = req.body;
 
-    if (!status || !['pending', 'received', 'cancelled'].includes(status)) {
+    if (!status || !['pending', 'processing', 'received', 'cancelled'].includes(status)) {
         return res.status(400).json({ error: 'Valid status required' });
     }
 
@@ -106,7 +106,6 @@ router.put('/:id/status', verifyToken, (req, res) => {
             if (err) return res.status(500).json({ error: 'Database error' });
             if (result.affectedRows === 0) return res.status(404).json({ error: 'Order not found' });
 
-            // If received, update stock for each item
             if (status === 'received') {
                 db.query(
                     'SELECT medication_id, quantity FROM order_items WHERE order_id = ?',
@@ -132,6 +131,28 @@ router.put('/:id/status', verifyToken, (req, res) => {
             }
         }
     );
+});
+
+// Update order items during purchase entry
+router.put('/:id/items', verifyToken, (req, res) => {
+    const { id } = req.params;
+    const { items } = req.body;
+
+    if (!items || items.length === 0) {
+        return res.status(400).json({ error: 'Items are required' });
+    }
+
+    const updates = items.map(item => new Promise((resolve, reject) => {
+        db.query(
+            'UPDATE order_items SET quantity = ?, unit_price = ?, expiry = ?, notes = ? WHERE id = ? AND order_id = ?',
+            [item.quantity, item.unit_price, item.expiry || null, item.notes || null, item.id, id],
+            (err) => err ? reject(err) : resolve()
+        );
+    }));
+
+    Promise.all(updates)
+        .then(() => res.json({ message: 'Items updated' }))
+        .catch(() => res.status(500).json({ error: 'Update failed' }));
 });
 
 // Get orders by supplier

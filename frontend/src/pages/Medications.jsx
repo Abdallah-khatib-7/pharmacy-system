@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect} from 'react'
 import { Pill, Plus, Pencil, Trash2, Search, X, ChevronDown } from 'lucide-react'
 import api from '../api/axios'
 import useAuth from '../context/useAuth'
@@ -15,31 +15,25 @@ const getExpiryStatus = (expiry) => {
     return 'text-slate-500'
 }
 
-const SlidePanel = ({ open, onClose, title, children }) => (
-    <>
-        {open && (
-            <div className="fixed inset-0 z-50 flex">
-                <div className="absolute inset-0 bg-black bg-opacity-40 backdrop-blur-sm" onClick={onClose} />
-                <div className="relative ml-auto w-full max-w-lg bg-white h-full shadow-2xl flex flex-col z-10"
-                    style={{ animation: 'slideIn 0.3s ease-out' }}>
-                    <div className="flex items-center justify-between px-6 py-5 border-b border-slate-100">
-                        <h2 className="text-lg font-bold text-slate-800">{title}</h2>
-                        <button onClick={onClose} className="p-2 hover:bg-slate-100 rounded-xl transition">
-                            <X size={20} color="#64748b" />
-                        </button>
-                    </div>
-                    <div className="flex-1 overflow-y-auto p-6">
-                        {children}
-                    </div>
-                </div>
+const SlidePanel = ({ open, onClose, title, children }) => {
+    if (!open) return null
+    return (
+        <div className="fixed top-0 right-0 h-full w-full max-w-lg bg-white shadow-2xl flex flex-col z-50 border-l border-slate-100"
+            style={{ animation: 'slideIn 0.3s ease-out' }}>
+            <div className="flex items-center justify-between px-6 py-5 border-b border-slate-100">
+                <h2 className="text-lg font-bold text-slate-800">{title}</h2>
+                <button onClick={onClose} className="p-2 hover:bg-slate-100 rounded-xl transition">
+                    <X size={20} color="#64748b" />
+                </button>
             </div>
-        )}
-    </>
-)
+            <div className="flex-1 overflow-y-auto p-6">{children}</div>
+        </div>
+    )
+}
 
 const DeleteModal = ({ item, onClose, onConfirm }) => (
     <div className="fixed inset-0 z-50 flex items-center justify-center">
-        <div className="absolute inset-0 bg-black bg-opacity-40 backdrop-blur-sm" onClick={onClose} />
+        <div className="absolute inset-0 bg-black bg-opacity-40 " onClick={onClose} />
         <div className="relative bg-white rounded-2xl shadow-2xl w-full max-w-sm mx-4 p-6 z-10">
             <div className="text-center">
                 <div className="w-14 h-14 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4">

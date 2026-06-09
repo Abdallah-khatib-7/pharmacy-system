@@ -46,7 +46,7 @@ CREATE TABLE IF NOT EXISTS prescriptions (
     id INT AUTO_INCREMENT PRIMARY KEY,
     patient_name VARCHAR(255) NOT NULL,
     pharmacist_id INT NOT NULL,
-    status ENUM('pending', 'dispensed', 'cancelled') DEFAULT 'pending',
+    status ENUM('pending', 'processing', 'received', 'cancelled') DEFAULT 'pending',
     notes TEXT,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (pharmacist_id) REFERENCES users(id)
@@ -66,7 +66,7 @@ CREATE TABLE IF NOT EXISTS orders (
     id INT AUTO_INCREMENT PRIMARY KEY,
     supplier_id INT NOT NULL,
     ordered_by INT NOT NULL,
-    status ENUM('pending', 'received', 'cancelled') DEFAULT 'pending',
+    status ENUM('pending', 'processing', 'received', 'cancelled') DEFAULT 'pending',
     notes TEXT,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (supplier_id) REFERENCES suppliers(id),

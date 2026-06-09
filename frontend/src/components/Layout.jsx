@@ -3,7 +3,7 @@ import { useNavigate, useLocation } from 'react-router-dom'
 import {
     Pill, LayoutDashboard, Truck, FileText,
     AlertTriangle, LogOut, Menu, X,
-    ChevronRight, Users, Search
+    ChevronRight, Users, Search,ShoppingCart
 } from 'lucide-react'
 import useAuth from '../context/useAuth'
 
@@ -26,14 +26,17 @@ const Layout = ({ children }) => {
         { label: 'Prescriptions', icon: FileText, path: '/prescriptions' },
         { label: 'Users', icon: Users, path: '/users' },
         { label: 'Alerts', icon: AlertTriangle, path: '/alerts' },
+        { label: 'Orders', icon: ShoppingCart, path: '/orders' },
     ]
 
     const pharmacistLinks = [
         { label: 'Dashboard', icon: LayoutDashboard, path: '/dashboard' },
         { label: 'Medications', icon: Pill, path: '/medications' },
+         { label: 'Suppliers', icon: Truck, path: '/suppliers' },
         { label: 'Search by Ingredient', icon: Search, path: '/ingredients' },
         { label: 'Prescriptions', icon: FileText, path: '/prescriptions' },
         { label: 'Alerts', icon: AlertTriangle, path: '/alerts' },
+        { label: 'Orders', icon: ShoppingCart, path: '/orders' },
     ]
 
     const links = user?.role === 'admin' ? adminLinks : pharmacistLinks

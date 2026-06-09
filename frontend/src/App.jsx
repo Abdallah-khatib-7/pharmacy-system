@@ -7,6 +7,8 @@ import ProtectedRoute from './components/ProtectedRoute'
 import useAuth from './context/useAuth'
 import Medications from './pages/Medications'
 import Suppliers from './pages/Suppliers'
+import Orders from './pages/Orders'
+import PurchaseEntry from './pages/PurchaseEntry'
 
 const RoleRouter = () => {
     const { user } = useAuth()
@@ -36,6 +38,19 @@ function App() {
                 <Route path="/suppliers" element={
     <ProtectedRoute>
         <Layout><Suppliers /></Layout>
+    </ProtectedRoute>
+} />
+
+
+<Route path="/orders" element={
+    <ProtectedRoute>
+        <Layout><Orders /></Layout>
+    </ProtectedRoute>
+} />
+
+<Route path="/orders/:id/purchase-entry" element={
+    <ProtectedRoute>
+        <Layout><PurchaseEntry /></Layout>
     </ProtectedRoute>
 } />
 
