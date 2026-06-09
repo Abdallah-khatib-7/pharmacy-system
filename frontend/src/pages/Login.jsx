@@ -14,7 +14,7 @@ const Login = () => {
     const { login, token, user } = useAuth()
     const navigate = useNavigate()
       if (token && user) {
-        return <Navigate to={user.role === 'admin' ? '/admin' : '/dashboard'} />
+        return <Navigate to="/go" />
     }
     const handleSubmit = async (e) => {
         e.preventDefault()
@@ -23,7 +23,7 @@ const Login = () => {
         try {
             const response = await api.post('/auth/login', { email, password })
             login(response.data.user, response.data.token)
-            navigate('/dashboard')
+            navigate('/go')
         } catch (err) {
             setError(err.response?.data?.error || 'Login failed')
         } finally {

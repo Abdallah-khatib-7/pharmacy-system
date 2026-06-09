@@ -1,5 +1,6 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 import Login from './pages/Login'
+import Landing from './pages/Landing'
 import AdminDashboard from './pages/AdminDashboard'
 import PharmacistDashboard from './pages/PharmacistDashboard'
 import Layout from './components/Layout'
@@ -15,10 +16,11 @@ import PharmacareAI from './pages/PharmacareAI'
 import DosageCalculator from './pages/DosageCalculator'
 import Prescriptions from './pages/Prescriptions'
 import NewPrescription from './pages/NewPrescription'
-import Users from './pages/Users'
+import UsersPage from './pages/Users'
 
 const RoleRouter = () => {
-    const { user } = useAuth()
+    const { user, token } = useAuth()
+    if (!token) return <Navigate to="/" />
     if (user?.role === 'admin') return <Navigate to="/admin" />
     return <Navigate to="/dashboard" />
 }
@@ -27,90 +29,80 @@ function App() {
     return (
         <BrowserRouter>
             <Routes>
+                {/* Public */}
+                <Route path="/" element={<Landing />} />
                 <Route path="/login" element={<Login />} />
-                <Route path="/" element={<RoleRouter />} />
-                <Route path="/medications" element={
-    <ProtectedRoute>
-        <Layout><Medications /></Layout>
-    </ProtectedRoute>
-} />
+                <Route path="/go" element={<RoleRouter />} />
 
-                {/* Admin Routes */}
+                {/* Admin */}
                 <Route path="/admin" element={
                     <ProtectedRoute adminOnly>
                         <Layout><AdminDashboard /></Layout>
                     </ProtectedRoute>
                 } />
-
-                <Route path="/suppliers" element={
-    <ProtectedRoute>
-        <Layout><Suppliers /></Layout>
-    </ProtectedRoute>
-} />
-
-
-<Route path="/orders" element={
-    <ProtectedRoute>
-        <Layout><Orders /></Layout>
-    </ProtectedRoute>
-} />
-
-<Route path="/orders/:id/purchase-entry" element={
-    <ProtectedRoute>
-        <Layout><PurchaseEntry /></Layout>
-    </ProtectedRoute>
-} />
-
-<Route path="/prescriptions" element={
-    <ProtectedRoute>
-        <Layout><Prescriptions /></Layout>
-    </ProtectedRoute>
-} />
-
-
-<Route path="/alerts" element={
-    <ProtectedRoute>
-        <Layout><Alerts /></Layout>
-    </ProtectedRoute>
-} />
-
-
-<Route path="/ingredients" element={
-    <ProtectedRoute>
-        <Layout><Ingredients /></Layout>
-    </ProtectedRoute>
-} />
-
-
-<Route path="/ai" element={
-    <ProtectedRoute>
-        <Layout><PharmacareAI /></Layout>
-    </ProtectedRoute>
-} />
-
-<Route path="/users" element={
+                <Route path="/users" element={
                     <ProtectedRoute adminOnly>
-                        <Layout><Users /></Layout>
+                        <Layout><UsersPage /></Layout>
                     </ProtectedRoute>
                 } />
 
-<Route path="/calculator" element={
-    <ProtectedRoute>
-        <Layout><DosageCalculator /></Layout>
-    </ProtectedRoute>
-} />
-
-<Route path="/prescriptions/new" element={
-    <ProtectedRoute>
-        <Layout><NewPrescription /></Layout>
-    </ProtectedRoute>
-} />
-                {/* Pharmacist Routes */}
+                {/* Pharmacist */}
                 <Route path="/dashboard" element={
                     <ProtectedRoute>
                         <Layout><PharmacistDashboard /></Layout>
                     </ProtectedRoute>
-                    
+                } />
+
+                {/* Shared */}
+                <Route path="/medications" element={
+                    <ProtectedRoute>
+                        <Layout><Medications /></Layout>
+                    </ProtectedRoute>
+                } />
+                <Route path="/suppliers" element={
+                    <ProtectedRoute>
+                        <Layout><Suppliers /></Layout>
+                    </ProtectedRoute>
+                } />
+                <Route path="/orders" element={
+                    <ProtectedRoute>
+                        <Layout><Orders /></Layout>
+                    </ProtectedRoute>
+                } />
+                <Route path="/orders/:id/purchase-entry" element={
+                    <ProtectedRoute>
+                        <Layout><PurchaseEntry /></Layout>
+                    </ProtectedRoute>
+                } />
+                <Route path="/prescriptions" element={
+                    <ProtectedRoute>
+                        <Layout><Prescriptions /></Layout>
+                    </ProtectedRoute>
+                } />
+                <Route path="/prescriptions/new" element={
+                    <ProtectedRoute>
+                        <Layout><NewPrescription /></Layout>
+                    </ProtectedRoute>
+                } />
+                <Route path="/alerts" element={
+                    <ProtectedRoute>
+                        <Layout><Alerts /></Layout>
+                    </ProtectedRoute>
+                } />
+                <Route path="/ingredients" element={
+                    <ProtectedRoute>
+                        <Layout><Ingredients /></Layout>
+                    </ProtectedRoute>
+                } />
+                <Route path="/ai" element={
+                    <ProtectedRoute>
+                        <Layout><PharmacareAI /></Layout>
+                    </ProtectedRoute>
+                } />
+                <Route path="/calculator" element={
+                    <ProtectedRoute>
+                        <Layout><DosageCalculator /></Layout>
+                    </ProtectedRoute>
                 } />
             </Routes>
         </BrowserRouter>
